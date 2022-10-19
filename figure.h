@@ -6,6 +6,12 @@ enum Sectors {A, B, C, D, E, F};
 enum TypeOfFigures { none, first, second };
 
 class Figure {
+public:
+    //Контур фигуры
+    QPainterPath circuit;
+
+    //Угол поворота
+    int rotationValue;
 private:
     //Координаты
     int ordX;
@@ -13,26 +19,22 @@ private:
     int ordY;
     int prevOrdY;
     //Данные фигуры
+    TypeOfFigures figureType;
     int figureWidth;
     int figureHeight;
     double figureArea;
     double figurePerimeter;
-    TypeOfFigures figureType;
-    double scaleValue = 1;
 
 public:
     Figure(int ordX, int ordY, int figureWidth, int figureHeight);
 
-    QPainterPath circuit;
-    int rotationValue;
-
     //Координатные методы
     void setBegin(int startPoint);
-    void createLine(Sectors section, int endPoint = 0);
     void setLocation(int ordX, int ordY);
     void recoveryLocation();
 
-    //Создание фигурных модификаций
+    //Отрисовка фигурных модификаций
+    void createLine(Sectors section, int endPoint = 0);
     void createWave(double ray, Sectors section);
     void createCone(double ray, Sectors section);
     void createSphere(double ray, Sectors section);
@@ -40,17 +42,16 @@ public:
     void createTriangle(double length, Sectors section);
     void createRect(double length, Sectors section);
 
-    void scale(double value);
-    void rotate(double angle);
+    //Повороты фигуры
+    void rotate(double rotValue);
     void resetRotation();
 
     //Геттеры полей Фигуры
+    TypeOfFigures getTypeOfFigure();
     int getOrdX();
     int getOrdY();
-    int getRotationValue();
-    int getFigureHeight();
     int getFigureWidth();
+    int getFigureHeight();
     double getFigurePerimeter();
     double getFigureArea();
-    TypeOfFigures getTypeOfFigure();
 };

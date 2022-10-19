@@ -20,6 +20,6 @@ RotDialog::~RotDialog()
 
 void RotDialog::on_horizontalSlider_valueChanged(int value)
 {
-    FigureManager::getManager().rotateSelected(value);
+    FigureManager::getManager().getSelectedFigure()->rotate(value);
 }
 

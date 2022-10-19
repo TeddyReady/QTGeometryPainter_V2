@@ -7,6 +7,17 @@ Figure::Figure(int ordX, int ordY, int figureWidth, int figureHeight)
 void Figure::setBegin(int startPoint) {
     circuit.moveTo(ordX + startPoint, ordY);
 }
+void Figure::setLocation(int ordX, int ordY){
+    prevOrdX = this->ordX;
+    prevOrdY = this->ordY;
+    this->ordX = ordX;
+    this->ordY= ordY;
+}
+void Figure::recoveryLocation() {
+    circuit.translate(prevOrdX - this->ordX, prevOrdY - this->ordY);
+    this->ordX = prevOrdX;
+    this->ordY = prevOrdY;
+}
 
 void Figure::createLine(Sectors section, int endPoint) {
     switch (section) {
@@ -39,20 +50,6 @@ void Figure::createLine(Sectors section, int endPoint) {
         break;
     }
 }
-
-void Figure::setLocation(int ordX, int ordY){
-    prevOrdX = this->ordX;
-    prevOrdY = this->ordY;
-    this->ordX = ordX;
-    this->ordY= ordY;
-}
-
-void Figure::recoveryLocation() {
-    circuit.translate(prevOrdX - this->ordX, prevOrdY - this->ordY);
-    this->ordX = prevOrdX;
-    this->ordY = prevOrdY;
-}
-
 void Figure::createWave(double ray, Sectors section)
 {
     figurePerimeter -= 2 * ray;
@@ -85,7 +82,6 @@ void Figure::createWave(double ray, Sectors section)
         break;
     }
 }
-
 void Figure::createCone(double ray, Sectors section)
 {
     figurePerimeter -= 2 * ray;
@@ -117,7 +113,6 @@ void Figure::createCone(double ray, Sectors section)
         break;
     }
 }
-
 void Figure::createSphere(double ray, Sectors section)
 {
     figurePerimeter -= 2 * ray;
@@ -139,7 +134,6 @@ void Figure::createSphere(double ray, Sectors section)
         break;
     }
 }
-
 void Figure::createSquare(double length, Sectors section)
 {
     figureArea -= length * length;
@@ -173,7 +167,6 @@ void Figure::createSquare(double length, Sectors section)
         break;
     }
 }
-
 void Figure::createTriangle(double length, Sectors section)
 {
 
@@ -206,7 +199,6 @@ void Figure::createTriangle(double length, Sectors section)
         break;
     }
 }
-
 void Figure::createRect(double length, Sectors section)
 {
     figurePerimeter += 2 * length;
@@ -232,23 +224,6 @@ void Figure::createRect(double length, Sectors section)
     }
 }
 
-void Figure::scale(double value)
-{
-    QTransform transform;
-    transform.translate(ordX, ordY);
-    transform.scale(value, value);
-    transform.translate(-ordX, -ordY);
-
-    circuit = transform.map(circuit);
-    scaleValue *= value;
-
-    figureWidth *= value;
-    figureHeight *= value;
-
-    figureArea *= value * value;
-    figurePerimeter = circuit.length();
-}
-
 void Figure::rotate(qreal angle)
 {
     if (qAbs(rotationValue - angle) < 0.01) {
@@ -263,7 +238,6 @@ void Figure::rotate(qreal angle)
     circuit = transform.map(circuit);
     rotationValue += angle;
 }
-
 void Figure::resetRotation()
 {
     QTransform transform;
@@ -275,11 +249,10 @@ void Figure::resetRotation()
     rotationValue = 0;
 }
 
+TypeOfFigures Figure::getTypeOfFigure() { return figureType; }
 int Figure::getOrdX() { return ordX; }
 int Figure::getOrdY() { return ordY; }
-int Figure::getRotationValue() { return rotationValue; }
-int Figure::getFigureHeight() { return figureHeight; }
 int Figure::getFigureWidth() { return figureWidth; }
+int Figure::getFigureHeight() { return figureHeight; }
 double Figure::getFigurePerimeter() { return figurePerimeter; }
 double Figure::getFigureArea() { return figureArea; }
-TypeOfFigures Figure::getTypeOfFigure() { return figureType; }

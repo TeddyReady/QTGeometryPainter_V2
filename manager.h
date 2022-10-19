@@ -10,8 +10,8 @@
 class FigureManager {
 private:
     FigureManager();
-    FigureManager( const FigureManager&);
-    FigureManager& operator=( FigureManager& );
+    FigureManager(const FigureManager&);
+    FigureManager& operator=(FigureManager&);
 
     Figure *selected = nullptr;
 public:
@@ -29,16 +29,9 @@ public:
 
     std::vector<Figure> figures = std::vector<Figure>();
     //Создание первой фигуры
-    void createFirstFigure(int ordX, int ordY, int width, int height, int angle, TypeOfFigures figureType);
-
-    //Поворот фигуры
-    void rotateFigure(size_t i, int rotationValue);
-    void rotateSelected(int rotationValue);
-    void setZeroRotation(size_t i);
-    void setSelectedZeroRotation();
+    void createFigure(int ordX, int ordY, int width, int height, int angle, TypeOfFigures figureType);
 
     //Выделение фигуры
-    void chooseFigure(size_t i);
     void chooseFigure(Figure *figure);
 
     //Снятие выделения
@@ -49,18 +42,15 @@ public:
     void removeFigure(size_t i);
     void removeSelectedFigure();
 
-    //Изменение выделенной фигуры
-    void changeSelectedFigure();
-
     //Отрисовка фигур
     void renderFigures(QPainter &painter);
 
     //Перемещение фигуры по заданным координатам
     void moveSelectedToCoordinates(int ordX, int ordY, double winWidth, double winHeight);
 
-    //Есть ли выбранные фигуры
+    //Есть ли выделенные фигуры в окне
     bool isSelectedFiguresOnWindow();
 
-    //Геттер выбранной фигуры
-    Figure *getSelectedFigure();
+    //Получение выделенной фигуры
+    Figure* getSelectedFigure();
 };

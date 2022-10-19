@@ -9,6 +9,7 @@
 
 #include "manager.h"
 #include "changedialog.h"
+#include "rotdialog.h"
 
 class Foundation : public QMainWindow {
   Q_OBJECT
@@ -19,7 +20,6 @@ private:
     QAction *quit;
     QAction *destroyAllFigures;
     QAction *destroyOnlyNoise;
-    QAction *fitAction;
 
     //Панель инструментов
     QToolBar *toolbar;
@@ -58,7 +58,6 @@ private slots:
     void quitTask();
     void destroyAllTask();
     void destroyCrossingTask();
-    void fitFiguresTask();
 
     //Слоты Тулбара
     void addFigureTask();

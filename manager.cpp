@@ -2,7 +2,7 @@
 
 FigureManager::FigureManager() {}
 
-void FigureManager::createFirstFigure(int ordX, int ordY, int width, int height, int angle,  TypeOfFigures figureType) {
+void FigureManager::createFigure(int ordX, int ordY, int width, int height, int angle,  TypeOfFigures figureType) {
     figureWidth = width;
     figureHeight = height;
     figurePointRadius = 10 + (rand() % 40);
@@ -48,61 +48,6 @@ void FigureManager::createFirstFigure(int ordX, int ordY, int width, int height,
     figures.push_back(figure);
 }
 
-void FigureManager::rotateFigure(size_t i, int rotationValue){
-    if (i >= figures.size()) {
-        return;
-    }
-
-    Figure selectedFigure = figures[i];
-
-    if (qAbs(selectedFigure.getRotationValue() - rotationValue) < 0.01) {
-        return;
-    }
-
-    QTransform transform;
-    transform.translate(selectedFigure.getOrdX() + figureWidth / 2, selectedFigure.getOrdY() + figureHeight / 2);
-    transform.rotate(rotationValue);
-    transform.translate(-selectedFigure.getOrdX() - figureWidth / 2, -selectedFigure.getOrdY() - figureHeight / 2);
-
-    figures[i].circuit = transform.map(selectedFigure.circuit);
-    figures[i].rotationValue = rotationValue;
-}
-
-void FigureManager::rotateSelected(int rotationValue){
-    if (qAbs(selected->rotationValue - rotationValue) < 0.01) {
-        return;
-    }
-
-    QTransform transform;
-    transform.translate(selected->getOrdX() + figureWidth / 2, selected->getOrdY() + figureHeight / 2);
-    transform.rotate(rotationValue);
-    transform.translate(-selected->getOrdX() - figureWidth / 2, -selected->getOrdY() - figureHeight / 2);
-
-    selected->circuit = transform.map(selected->circuit);
-    selected->rotationValue = rotationValue;
-}
-
-void FigureManager::setZeroRotation(size_t i) {
-    if (i >= figures.size()) {
-        return;
-    }
-
-    figures[i].resetRotation();
-}
-
-void FigureManager::setSelectedZeroRotation()
-{
-    selected->resetRotation();
-}
-
-void FigureManager::chooseFigure(size_t i){
-    if (i >= figures.size()) {
-        return;
-    }
-
-    selected = &figures[i];
-}
-
 void FigureManager::chooseFigure(Figure *figure){ selected = figure; }
 
 void FigureManager::removeSelection(){ selected = nullptr; }
@@ -125,8 +70,6 @@ void FigureManager::removeSelectedFigure() {
     removeFigure(selected);
     removeSelection();
 }
-
-void FigureManager::changeSelectedFigure() {}
 
 void FigureManager::renderFigures(QPainter & painter){
     for (Figure &figure : figures) {

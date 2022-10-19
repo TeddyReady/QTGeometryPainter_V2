@@ -1,25 +1,20 @@
 #include "foundation.h"
-#include "rotdialog.h"
-#include "changedialog.h"
 
 Foundation::Foundation(QWidget *parent) : QMainWindow(parent) {
     //Инициализируем действия меню
     quit = new QAction("&Exit..", this);
     destroyAllFigures = new QAction("&Clear field", this);
     destroyOnlyNoise = new QAction("&Clear crossing objects", this);
-    fitAction = new QAction("&Sort all objects", this);
 
     //Установим горячие клавиши
     quit->setShortcut(tr("CTRL+Q"));
     destroyAllFigures->setShortcut(tr("CTRL+ALT+D"));
     destroyOnlyNoise->setShortcut(tr("CTRL+D"));
-    fitAction->setShortcut(tr("CTRL+F"));
 
     //Создание меню:
     fileMenu = menuBar()->addMenu("&File");
     fileMenu->addAction(destroyAllFigures);
     fileMenu->addAction(destroyOnlyNoise);
-    fileMenu->addAction(fitAction);
     fileMenu->addSeparator();
     fileMenu->addAction(quit);
 
@@ -27,7 +22,6 @@ Foundation::Foundation(QWidget *parent) : QMainWindow(parent) {
     connect(quit, SIGNAL(triggered(bool)), this, SLOT(quitTask()));
     connect(destroyAllFigures, SIGNAL(triggered(bool)), this, SLOT(destroyAllTask()));
     connect(destroyOnlyNoise, SIGNAL(triggered(bool)), this, SLOT(destroyCrossingTask()));
-    connect(fitAction, SIGNAL(triggered(bool)), this, SLOT(fitFiguresTask()));
 
     //Создаем панель инструментов
     toolbar = addToolBar("ToolBar");
@@ -204,9 +198,6 @@ void Foundation::destroyCrossingTask() {
     this->update();
     statusBar()->showMessage("Intersections removed");
 }
-void Foundation::fitFiguresTask() {
-    statusBar()->showMessage("Figures sorted");
-}
 
 void Foundation::addFigureTask() {
     int randX, randY, randW, randH, randA;
@@ -218,14 +209,14 @@ void Foundation::addFigureTask() {
 
     if (type1Action->isChecked()) {
         FigureManager::getManager().
-                createFirstFigure(randX, randY, randW, randH, randA, selectedType);
+                createFigure(randX, randY, randW, randH, randA, selectedType);
         this->update();
         statusBar()->showMessage("Figure added");
         return;
     }
     if (type2Action->isChecked()) {
         FigureManager::getManager().
-                createFirstFigure(randX, randY, randW, randH, randA, selectedType);
+                createFigure(randX, randY, randW, randH, randA, selectedType);
         this->update();
         statusBar()->showMessage("Figure added");
         return;
@@ -266,13 +257,11 @@ void Foundation::editFigure(bool) {
     dialog->show();
     this->update();
 }
-
 void Foundation::moveFigure(bool)
 {
     updateFrames = true;
     statusBar()->showMessage("Figure Moves");
 }
-
 void Foundation::rotateFigure(bool) {
     RotDialog *rotDialog = new RotDialog(this);
     rotDialog->show();
