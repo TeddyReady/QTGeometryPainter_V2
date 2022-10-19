@@ -7,7 +7,6 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <algorithm>
-
 #include "manager.h"
 #include "changedialog.h"
 #include "rotdialog.h"

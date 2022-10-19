@@ -8,6 +8,7 @@ ChangeDialog::ChangeDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //Устанавоиваем текущие параметры в окно
     Figure *selectedFigure = FigureManager::getManager().getSelectedFigure();
     ui->heightEdit->setText(QString::number(selectedFigure->getFigureHeight()));
     ui->widthEdit->setText(QString::number(selectedFigure->getFigureWidth()));
@@ -25,20 +26,17 @@ ChangeDialog::~ChangeDialog()
 
 void ChangeDialog::on_submitDialogBox_accepted()
 {
+    //Забираем значения из окна
     int localWidth = qStringToDouble(ui->widthEdit->text());
     int localHeight = qStringToDouble(ui->heightEdit->text());
     int localAngle = qStringToDouble(ui->rotationEdit->text());
     int localX = qStringToDouble(ui->xEdit->text());
     int localY = qStringToDouble(ui->yEdit->text());
-
-    FigureManager::getManager().figureHeight = localHeight;
-    FigureManager::getManager().figureWidth = localWidth;
-
     TypeOfFigures localType = FigureManager::getManager().getSelectedFigure()->getTypeOfFigure();
 
+    //Удаляем старую и создаем новую фигуры
     FigureManager::getManager().removeSelectedFigure();
     FigureManager::getManager().createFigure(localX, localY, localWidth, localHeight, localAngle, localType);
-    this->update();
 }
 
 double ChangeDialog::qStringToDouble(const QString &value)

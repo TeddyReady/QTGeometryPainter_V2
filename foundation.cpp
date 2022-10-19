@@ -118,6 +118,7 @@ void Foundation::mousePressEvent(QMouseEvent *event) {
                 FigureManager::getManager().chooseFigure(&figure);
                 destroyAction->setEnabled(true);
 
+                //Создаем контекстное меню
                 QMenu *contextMenu = new QMenu();
                 QAction *deleteAction = new QAction("Delete", this);
                 QAction *editAction = new QAction("Edit...", this);

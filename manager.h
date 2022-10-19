@@ -18,7 +18,7 @@ public:
         static FigureManager manager;
         return manager;
     }
-
+    //Поля фигуры по умолчанию
     int figureWidth = 300;
     int figureHeight = 200;
     int figurePointRadius = 15;
@@ -26,7 +26,9 @@ public:
     int figurePitDeepth = 20;
     int figurePitRadius = 20;
 
+    //Массив созданных фигур
     std::vector<Figure> figures = std::vector<Figure>();
+
     //Создание первой фигуры
     void createFigure(int ordX, int ordY, int width, int height, int angle, TypeOfFigures figureType);
 

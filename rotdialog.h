@@ -1,8 +1,5 @@
-#ifndef RotDialog_H
-#define RotDialog_H
-
+#pragma once
 #include <QDialog>
-
 #include "manager.h"
 
 namespace Ui {
@@ -23,5 +20,3 @@ private slots:
 private:
     Ui::RotDialog *ui;
 };
-
-#endif // RotDialog_H
