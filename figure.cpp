@@ -1,7 +1,8 @@
 #include "figure.h"
 
 Figure::Figure(int ordX, int ordY, int figureWidth, int figureHeight)
-    : ordX(ordX), ordY(ordY), figureWidth(figureWidth), figureHeight(figureHeight) {}
+    : ordX(ordX), ordY(ordY), figureWidth(figureWidth), figureHeight(figureHeight),
+      figureArea(figureWidth * figureHeight), figurePerimeter(2 * (figureWidth + figureHeight)), rotationValue(0){}
 
 void Figure::setBegin(int startPoint) {
     circuit.moveTo(ordX + startPoint, ordY);
@@ -61,17 +62,17 @@ void Figure::createWave(double ray, Sectors section)
 
     switch (section) {
     case Sectors::D:
-        createLine(Sectors::D, ray);
+        createLine(Sectors::C, ray);
         circuit.arcTo(ordX, ordY, ray * 2, ray * 2, 180, -90);
         break;
 
     case Sectors::A:
-        createLine(Sectors::A, ray);
+        createLine(Sectors::E, ray);
         circuit.arcTo(ordX + figureWidth - ray * 2, ordY, ray * 2, ray * 2, 90, -90);
         break;
 
     case Sectors::C:
-        createLine(Sectors::C, ray);
+        createLine(Sectors::F, ray);
         circuit.arcTo(ordX, ordY + figureHeight - ray * 2, ray * 2, ray * 2, -90, -90);
         break;
 
@@ -231,6 +232,49 @@ void Figure::createRect(double length, Sectors section)
     }
 }
 
+void Figure::scale(double value)
+{
+    QTransform transform;
+    transform.translate(ordX, ordY);
+    transform.scale(value, value);
+    transform.translate(-ordX, -ordY);
+
+    circuit = transform.map(circuit);
+    scaleValue *= value;
+
+    figureWidth *= value;
+    figureHeight *= value;
+
+    figureArea *= value * value;
+    figurePerimeter = circuit.length();
+}
+
+void Figure::rotate(qreal angle)
+{
+    if (qAbs(rotationValue - angle) < 0.01) {
+        return;
+    }
+
+    QTransform transform;
+    transform.translate(getOrdX() + figureWidth / 2, getOrdY() + figureHeight / 2);
+    transform.rotate(angle);
+    transform.translate(-getOrdX() - figureWidth / 2, -getOrdY() - figureHeight / 2);
+
+    circuit = transform.map(circuit);
+    rotationValue += angle;
+}
+
+void Figure::resetRotation()
+{
+    QTransform transform;
+    transform.translate(ordX + figureWidth / 2, ordY + figureHeight / 2);
+    transform.rotate(-rotationValue);
+    transform.translate(-ordX - figureWidth / 2, -ordY - figureHeight / 2);
+
+    circuit = transform.map(circuit);
+    rotationValue = 0;
+}
+
 int Figure::getOrdX() { return ordX; }
 int Figure::getOrdY() { return ordY; }
 int Figure::getRotationValue() { return rotationValue; }
@@ -238,3 +282,4 @@ int Figure::getFigureHeight() { return figureHeight; }
 int Figure::getFigureWidth() { return figureWidth; }
 double Figure::getFigurePerimeter() { return figurePerimeter; }
 double Figure::getFigureArea() { return figureArea; }
+TypeOfFigures Figure::getTypeOfFigure() { return figureType; }

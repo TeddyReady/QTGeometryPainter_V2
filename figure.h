@@ -3,6 +3,7 @@
 #include <QtCore>
 
 enum Sectors {A, B, C, D, E, F};
+enum TypeOfFigures { none, first, second };
 
 class Figure {
 private:
@@ -16,6 +17,8 @@ private:
     int figureHeight;
     double figureArea;
     double figurePerimeter;
+    TypeOfFigures figureType;
+    double scaleValue = 1;
 
 public:
     Figure(int ordX, int ordY, int figureWidth, int figureHeight);
@@ -37,6 +40,10 @@ public:
     void createTriangle(double length, Sectors section);
     void createRect(double length, Sectors section);
 
+    void scale(double value);
+    void rotate(double angle);
+    void resetRotation();
+
     //Геттеры полей Фигуры
     int getOrdX();
     int getOrdY();
@@ -45,4 +52,5 @@ public:
     int getFigureWidth();
     double getFigurePerimeter();
     double getFigureArea();
+    TypeOfFigures getTypeOfFigure();
 };

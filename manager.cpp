@@ -2,8 +2,13 @@
 
 FigureManager::FigureManager() {}
 
-void FigureManager::createFirstFigure(int ordX, int ordY, TypeOfFigures figureType) {
-
+void FigureManager::createFirstFigure(int ordX, int ordY, int width, int height, int angle,  TypeOfFigures figureType) {
+    figureWidth = width;
+    figureHeight = height;
+    figurePointRadius = 10 + (rand() % 40);
+    figurePointSlice = 10 + (rand() % 40);
+    figurePitDeepth = 10 + (rand() % 40);
+    figurePitRadius = 10 + (rand() % 40);
     Figure figure = Figure(ordX, ordY, figureWidth, figureHeight);
 
     switch (figureType) {
@@ -16,6 +21,8 @@ void FigureManager::createFirstFigure(int ordX, int ordY, TypeOfFigures figureTy
         figure.createRect(figurePitDeepth, F);
         figure.createTriangle(figurePointSlice, C);
         figure.createWave(figurePointRadius, D);
+
+        figure.rotate(angle);
         break;
 
     case TypeOfFigures::second:
@@ -27,6 +34,8 @@ void FigureManager::createFirstFigure(int ordX, int ordY, TypeOfFigures figureTy
         figure.createLine(B);
         figure.createWave(figurePointRadius, C);
         figure.createWave(figurePointRadius, D);
+
+        figure.rotate(angle);
         break;
 
     case TypeOfFigures::none:
@@ -71,6 +80,19 @@ void FigureManager::rotateSelected(int rotationValue){
 
     selected->circuit = transform.map(selected->circuit);
     selected->rotationValue = rotationValue;
+}
+
+void FigureManager::setZeroRotation(size_t i) {
+    if (i >= figures.size()) {
+        return;
+    }
+
+    figures[i].resetRotation();
+}
+
+void FigureManager::setSelectedZeroRotation()
+{
+    selected->resetRotation();
 }
 
 void FigureManager::chooseFigure(size_t i){
@@ -136,4 +158,4 @@ void FigureManager::moveSelectedToCoordinates(int ordX, int ordY, double winWidt
 
 bool  FigureManager::isSelectedFiguresOnWindow(){ return selected != nullptr; }
 
-Figure*  FigureManager::getSelectedFigure(){ return selected; }
+Figure* FigureManager::getSelectedFigure(){ return selected; }

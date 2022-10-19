@@ -8,25 +8,39 @@
 #include <QMenuBar>
 
 #include "manager.h"
-
+#include "changedialog.h"
 
 class Foundation : public QMainWindow {
   Q_OBJECT
 private:
     //Меню
     QMenu *fileMenu;
+
     QAction *quit;
+    QAction *destroyAllFigures;
+    QAction *destroyOnlyNoise;
+    QAction *fitAction;
+
     //Панель инструментов
     QToolBar *toolbar;
+
     QAction *appendAction;
     QAction *type1Action;
     QAction *type2Action;
-    QAction *fitAction;
     QAction *destroyAction;
 
+    //Контекстное меню
+    QMenu *contextMenu;
+    QAction *deleteAction;
+    QAction *editAction;
+    QAction *rotateAction;
+    QAction *moveAction;
+
+    //Переменные состояний
     bool canMoveObjects = true;
     bool updateFrames = false;
 
+    //Перемещение фигуры за курсором
     void moveFigureToCursor();
 public:
     Foundation(QWidget *parent = nullptr);
@@ -40,14 +54,20 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 
 private slots:
-    //Слоты
+    //Слоты Меню
+    void quitTask();
+    void destroyAllTask();
+    void destroyCrossingTask();
+    void fitFiguresTask();
+
+    //Слоты Тулбара
     void addFigureTask();
     void chooseFigureType1Task();
     void chooseFigureType2Task();
-    void fitFiguresTask();
     void destroyFigureTask();
 
-    void deleteFigure(bool);
-    //void editFigure(bool);
-    //void rotateFigure(bool);
+    //Слоты SubМеню
+    void editFigure(bool);
+    void moveFigure(bool);
+    void rotateFigure(bool);
 };

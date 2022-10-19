@@ -2,9 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <QtWidgets>
+#include <random>
 #include "figure.h"
-
-enum TypeOfFigures { none, first, second };
 
 //Реализуем паттерн "Одиночка"
 //для Менеджера Фигур
@@ -30,11 +29,13 @@ public:
 
     std::vector<Figure> figures = std::vector<Figure>();
     //Создание первой фигуры
-    void createFirstFigure(int ordX, int ordY, TypeOfFigures figureType);
+    void createFirstFigure(int ordX, int ordY, int width, int height, int angle, TypeOfFigures figureType);
 
     //Поворот фигуры
     void rotateFigure(size_t i, int rotationValue);
     void rotateSelected(int rotationValue);
+    void setZeroRotation(size_t i);
+    void setSelectedZeroRotation();
 
     //Выделение фигуры
     void chooseFigure(size_t i);
