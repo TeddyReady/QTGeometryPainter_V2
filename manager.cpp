@@ -9,7 +9,7 @@ void FigureManager::createFigure(int ordX, int ordY, int width, int height, int 
     figurePointSlice = 10 + (rand() % 40);
     figurePitDeepth = 10 + (rand() % 40);
     figurePitRadius = 10 + (rand() % 40);
-    Figure figure = Figure(ordX, ordY, figureWidth, figureHeight);
+    Figure figure(ordX, ordY, figureWidth, figureHeight, figureType);
 
     switch (figureType) {
     case TypeOfFigures::first:
@@ -64,7 +64,7 @@ void FigureManager::removeFigure(Figure *figure) {
     }
 }
 
-void FigureManager::removeFigure(size_t i) { figures.erase(figures.begin() + i); }
+void FigureManager::removeFigure(int i) { figures.erase(figures.begin() + i); }
 
 void FigureManager::removeSelectedFigure() {
     removeFigure(selected);

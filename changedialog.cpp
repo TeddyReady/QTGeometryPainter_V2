@@ -9,7 +9,6 @@ ChangeDialog::ChangeDialog(QWidget *parent) :
     ui->setupUi(this);
 
     Figure *selectedFigure = FigureManager::getManager().getSelectedFigure();
-
     ui->heightEdit->setText(QString::number(selectedFigure->getFigureHeight()));
     ui->widthEdit->setText(QString::number(selectedFigure->getFigureWidth()));
     ui->xEdit->setText(QString::number(selectedFigure->getOrdX()));
@@ -32,10 +31,14 @@ void ChangeDialog::on_submitDialogBox_accepted()
     int localX = qStringToDouble(ui->xEdit->text());
     int localY = qStringToDouble(ui->yEdit->text());
 
+    FigureManager::getManager().figureHeight = localHeight;
+    FigureManager::getManager().figureWidth = localWidth;
+
     TypeOfFigures localType = FigureManager::getManager().getSelectedFigure()->getTypeOfFigure();
 
     FigureManager::getManager().removeSelectedFigure();
     FigureManager::getManager().createFigure(localX, localY, localWidth, localHeight, localAngle, localType);
+    this->update();
 }
 
 double ChangeDialog::qStringToDouble(const QString &value)

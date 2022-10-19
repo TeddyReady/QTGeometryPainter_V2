@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
-#include <stdexcept>
 #include <QtWidgets>
+#include <stdexcept>
 #include <random>
 #include "figure.h"
 
@@ -39,7 +38,7 @@ public:
 
     //Удаление фигур
     void removeFigure(Figure *figure);
-    void removeFigure(size_t i);
+    void removeFigure(int i);
     void removeSelectedFigure();
 
     //Отрисовка фигур

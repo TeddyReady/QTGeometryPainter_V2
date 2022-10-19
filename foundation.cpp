@@ -118,11 +118,11 @@ void Foundation::mousePressEvent(QMouseEvent *event) {
                 FigureManager::getManager().chooseFigure(&figure);
                 destroyAction->setEnabled(true);
 
-                contextMenu = new QMenu("SubMenu");
-                deleteAction = new QAction("Delete", this);
-                editAction = new QAction("Edit...", this);
-                rotateAction = new QAction("Rotate...", this);
-                moveAction = new QAction("Move", this);
+                QMenu *contextMenu = new QMenu();
+                QAction *deleteAction = new QAction("Delete", this);
+                QAction *editAction = new QAction("Edit...", this);
+                QAction *rotateAction = new QAction("Rotate...", this);
+                QAction *moveAction = new QAction("Move", this);
 
                 connect(deleteAction, SIGNAL(triggered(bool)), this, SLOT(destroyFigureTask()));
                 connect(editAction, SIGNAL(triggered(bool)), this, SLOT(editFigure(bool)));
@@ -140,7 +140,6 @@ void Foundation::mousePressEvent(QMouseEvent *event) {
             found = true;
             break;
         }
-        this->repaint();
     }
 
     if (!found) {
@@ -148,6 +147,7 @@ void Foundation::mousePressEvent(QMouseEvent *event) {
             FigureManager::getManager().removeSelection();
         }
     }
+    this->update();
 }
 void Foundation::mouseMoveEvent(QMouseEvent *event) {
     if (!canMoveObjects) {
@@ -162,7 +162,6 @@ void Foundation::mouseMoveEvent(QMouseEvent *event) {
         setMouseTracking(false);
         canMoveObjects = false;
     }
-
     this->update();
 }
 void Foundation::mouseReleaseEvent(QMouseEvent *event) {
@@ -174,8 +173,8 @@ void Foundation::mouseReleaseEvent(QMouseEvent *event) {
 void Foundation::quitTask() { qApp->exit(); }
 void Foundation::destroyAllTask() {
     FigureManager::getManager().figures.clear();
-    this->update();
     statusBar()->showMessage("Figures removed");
+    this->update();
 }
 void Foundation::destroyCrossingTask() {
     std::vector<int> figuresToDelete = std::vector<int>();
@@ -195,8 +194,8 @@ void Foundation::destroyCrossingTask() {
     for (size_t i = 0; i < figuresToDelete.size(); i++) {
         FigureManager::getManager().removeFigure(figuresToDelete[i] - i);
     }
-    this->update();
     statusBar()->showMessage("Intersections removed");
+    this->update();
 }
 
 void Foundation::addFigureTask() {
@@ -210,15 +209,15 @@ void Foundation::addFigureTask() {
     if (type1Action->isChecked()) {
         FigureManager::getManager().
                 createFigure(randX, randY, randW, randH, randA, selectedType);
-        this->update();
         statusBar()->showMessage("Figure added");
+        this->update();
         return;
     }
     if (type2Action->isChecked()) {
         FigureManager::getManager().
                 createFigure(randX, randY, randW, randH, randA, selectedType);
-        this->update();
         statusBar()->showMessage("Figure added");
+        this->update();
         return;
     }
 }
@@ -255,15 +254,17 @@ void Foundation::destroyFigureTask() {
 void Foundation::editFigure(bool) {
     ChangeDialog *dialog = new ChangeDialog(this);
     dialog->show();
+    statusBar()->showMessage("Figure edited");
     this->update();
 }
 void Foundation::moveFigure(bool)
 {
     updateFrames = true;
-    statusBar()->showMessage("Figure Moves");
+    statusBar()->showMessage("Figure moved");
 }
 void Foundation::rotateFigure(bool) {
     RotDialog *rotDialog = new RotDialog(this);
     rotDialog->show();
+    statusBar()->showMessage("Figure rotated");
     this->update();
 }

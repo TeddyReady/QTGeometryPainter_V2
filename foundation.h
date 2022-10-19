@@ -6,6 +6,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QMenuBar>
+#include <algorithm>
 
 #include "manager.h"
 #include "changedialog.h"
@@ -13,28 +14,21 @@
 
 class Foundation : public QMainWindow {
   Q_OBJECT
+public:
+    TypeOfFigures selectedType = TypeOfFigures::none;
 private:
     //Меню
     QMenu *fileMenu;
-
     QAction *quit;
     QAction *destroyAllFigures;
     QAction *destroyOnlyNoise;
 
     //Панель инструментов
     QToolBar *toolbar;
-
     QAction *appendAction;
     QAction *type1Action;
     QAction *type2Action;
     QAction *destroyAction;
-
-    //Контекстное меню
-    QMenu *contextMenu;
-    QAction *deleteAction;
-    QAction *editAction;
-    QAction *rotateAction;
-    QAction *moveAction;
 
     //Переменные состояний
     bool canMoveObjects = true;
@@ -44,7 +38,6 @@ private:
     void moveFigureToCursor();
 public:
     Foundation(QWidget *parent = nullptr);
-    TypeOfFigures selectedType = TypeOfFigures::none;
 
 protected:
     //Эвенты

@@ -1,8 +1,12 @@
 #include "figure.h"
 
-Figure::Figure(int ordX, int ordY, int figureWidth, int figureHeight)
-    : ordX(ordX), ordY(ordY), figureWidth(figureWidth), figureHeight(figureHeight),
-      figureArea(figureWidth * figureHeight), figurePerimeter(2 * (figureWidth + figureHeight)), rotationValue(0){}
+Figure::Figure(int ordX, int ordY, int figureWidth, int figureHeight, TypeOfFigures figureType)
+    : ordX(ordX), ordY(ordY), figureWidth(figureWidth), figureHeight(figureHeight) {
+    this->figureType = figureType;
+    figureArea = figureWidth * figureHeight;
+    figurePerimeter = 2 * (figureWidth + figureHeight);
+    rotationValue = 0;
+}
 
 void Figure::setBegin(int startPoint) {
     circuit.moveTo(ordX + startPoint, ordY);

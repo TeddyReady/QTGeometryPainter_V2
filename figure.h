@@ -22,11 +22,11 @@ private:
     TypeOfFigures figureType;
     int figureWidth;
     int figureHeight;
-    double figureArea;
-    double figurePerimeter;
+    int figureArea;
+    int figurePerimeter;
 
 public:
-    Figure(int ordX, int ordY, int figureWidth, int figureHeight);
+    Figure(int ordX, int ordY, int figureWidth, int figureHeight, TypeOfFigures figureType);
 
     //Координатные методы
     void setBegin(int startPoint);
